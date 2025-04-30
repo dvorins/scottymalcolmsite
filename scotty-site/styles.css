@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+    background: white;
+    font-family: Consolas, monospace;
+  }
+
+
+
+  .wrapper {
+    position: relative;
+    width: 100vw;
+    height: calc(100vh - 50px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .center {
+    position: relative;
+    width: 300px;
+    height: 300px;
+  }
+
+  .center img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .link {
+    position: absolute;
+    font-weight: bold;
+    color: blue;
+    text-decoration: underline;
+    font-size: 1em;
+    white-space: nowrap;
+  }
+
+  /* Very close to the image */
+  .history    { top: -25px; left: 50%; transform: translateX(-50%); }
+  .more       { bottom: -25px; left: 50%; transform: translateX(-50%); }
+
+  .music      { top: 60px; left: -80px; }
+  .art        { top: 130px; left: -100px; }
+  .youtube    { top: 200px; left: -80px; }
+
+  .blog       { top: 60px; right: -80px; }
+  .instagram  { top: 130px; right: -110px; }
+  .lessons    { top: 200px; right: -80px; }
+
+  footer {
+    text-align: center;
+    font-size: 0.9em;
+    color: #999;
+    margin-top: 20px;
+  }
