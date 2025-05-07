@@ -4,63 +4,90 @@
   <meta charset="UTF-8" />
   <title>Scotty Malcolm</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .lesson-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 4vw;
+      margin: 2vh 0;
+      flex-wrap: wrap;
+    }
 
+    .lesson-text {
+      max-width: 40%;
+    }
+
+    .lesson-text p {
+      margin: 0.5em 0;
+    }
+
+    .lesson-image img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      .lesson-container {
+        flex-direction: column-reverse;
+        align-items: center;
+      }
+
+      .lesson-text, .lesson-image {
+        max-width: 90%;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div style="margin-bottom: 20vh;"></div>
+  <div style="margin-bottom: 2vh;"></div>
 
   <marquee behavior="scroll" direction="left">
     ,..,.,.,..,..,,..,,.,.,.,...,.LESSONS,.,.,.,.,..,.,.,.,..,,,
   </marquee>
 
-  <div style="margin-bottom: 20vh;"></div>
-  <div>
-    <p>I teach <a href="mailto:scottyscott158@gmail.com">guitar lessons</a>,</p>
-    <p>I teach <a href="mailto:scottyscott158@gmail.com">bass lessons</a>,</p>
-    <p>I teach you how to <a href="mailto:scottyscott158@gmail.com">write a song</a>,</p>
-    <p>I teach you how to <a href="mailto:scottyscott158@gmail.com">read a song</a></p>
-    <p>I teach you how to <a href="mailto:scottyscott158@gmail.com">hear a song</a></p>
-    <p>I teach you to <a href="mailto:scottyscott158@gmail.com">record</a></p>
-    <p>I teach you to <a href="mailto:scottyscott158@gmail.com">produce</a></p>
-    <p>I teach you to <a href="mailto:scottyscott158@gmail.com">be better</a></p>
-    <p>I teach you how to <a href="mailto:scottyscott158@gmail.com">not get worse</a></p>
-    <p>I teach you <a href="mailto:scottyscott158@gmail.com">better than I know</a></p>
-    <p>I teach you <a href="mailto:scottyscott158@gmail.com">anything you want</a></p>
-    <p>I teach <a href="mailto:scottyscott158@gmail.com">inspiration</a></p>
-    <p>I have <a href="mailto:scottyscott158@gmail.com">many students</a></p>
-    <p>They are <a href="mailto:scottyscott158@gmail.com">all happy</a></p>
-    <p>Their lives are going <a href="mailto:scottyscott158@gmail.com">much better now</a></p>
-    <p>I wish I could teach me so I could<br>
-    Go <a href="mailto:scottyscott158@gmail.com">better</a></p>
-  
-    <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
-    <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
-    <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
-    <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
-    <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
-    <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
-    <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
+  <div class="lesson-container">
+    <div class="lesson-text">
+      <p>I teach <a href="mailto:scottyscott158@gmail.com">guitar lessons</a>,</p>
+      <p>I teach <a href="mailto:scottyscott158@gmail.com">bass lessons</a>,</p>
+      <p>I teach you how to <a href="mailto:scottyscott158@gmail.com">write a song</a>,</p>
+      <p>I teach you how to <a href="mailto:scottyscott158@gmail.com">read a song</a></p>
+      <p>I teach you how to <a href="mailto:scottyscott158@gmail.com">hear a song</a></p>
+      <p>I teach you to <a href="mailto:scottyscott158@gmail.com">record</a></p>
+      <p>I teach you to <a href="mailto:scottyscott158@gmail.com">produce</a></p>
+      <p>I teach you to <a href="mailto:scottyscott158@gmail.com">be better</a></p>
+      <p>I teach you how to <a href="mailto:scottyscott158@gmail.com">not get worse</a></p>
+      <p>I teach you <a href="mailto:scottyscott158@gmail.com">better than I know</a></p>
+      <p>I teach you <a href="mailto:scottyscott158@gmail.com">anything you want</a></p>
+      <p>I teach <a href="mailto:scottyscott158@gmail.com">inspiration</a></p>
+      <p>I have <a href="mailto:scottyscott158@gmail.com">many students</a></p>
+      <p>They are <a href="mailto:scottyscott158@gmail.com">all happy</a></p>
+      <p>Their lives are going <a href="mailto:scottyscott158@gmail.com">much better now</a></p>
+      <p>I wish I could teach me so I could<br>
+      Go <a href="mailto:scottyscott158@gmail.com">better</a></p>
+      <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
+      <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
+      <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
+      <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
+      <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
+      <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
+      <p><a href="mailto:scottyscott158@gmail.com">Learn Now</a></p>
+    </div>
+
+    <div class="lesson-image">
+      <img src="gifs/LESSON.gif" alt="Lesson gif">
+    </div>
   </div>
 
-  <div>
+  <div style="text-align: center; margin-top: 4vh;">
     <a href="https://www.google.com/search?client=safari&rls=en&q=mistake&ie=UTF-8&oe=UTF-8">accept mediocrity</a>
   </div>
-  
 
-  <div style="margin-bottom: 20vh;"></div>
-
-
-  <div style="width: 50vw; margin: 0 auto;">
+  <div style="margin: 5vh auto; width: 50vw; text-align: center;">
     return <a href="index.html">HOME?</a>
-
   </div>
 
-
-  
-
-
-  
-  <footer>© 2025 Scotty Malcolm</footer>
-
+  <footer style="text-align: center;">© 2025 Scotty Malcolm</footer>
 </body>
 </html>

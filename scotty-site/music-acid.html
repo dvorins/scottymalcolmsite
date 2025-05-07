@@ -4,10 +4,43 @@
   <meta charset="UTF-8" />
   <title>Scotty Malcolm</title>
   <link rel="stylesheet" href="styles.css">
-
+  <style>
+    /* alternating two‑column album layout */
+    .album {
+      display: flex;
+      align-items: flex-start;
+      gap: 4vw;
+      margin-bottom: 8vh;
+    }
+    .album .album-image,
+    .album .album-text {
+      flex: 1 1 40%;
+    }
+    .album .album-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    /* alternate image/text order */
+    .album:nth-of-type(even) {
+      flex-direction: row-reverse;
+    }
+    @media (max-width: 768px) {
+      .album {
+        flex-direction: column !important;
+      }
+      .album .album-image,
+      .album .album-text {
+        flex: 1 1 100%;
+      }
+      .album .album-text {
+        margin-top: 2vh;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div style="margin-bottom: 2vh;"></div>
+  <div style="margin-bottom: 2vh;"></div>
 
   <marquee behavior="scroll" direction="left">
     ,..,.,.,..,..,,..,,.,.,.,...,.ACID MINION,,.,.,.,.,..,.,.,.,..,,,
@@ -16,48 +49,53 @@
   <div style="margin-bottom: 10vh;"></div>
 
   <div>
-    <p>I made this band so I could make bad music. One time we played a set watch <a href="https://www.youtube.com/watch?v=IldYXz6oOWk&t=300s">this</a>
-        </p>
+    <p>
+      I made this band so I could make bad music. One time we played a set—watch 
+      <a href="https://www.youtube.com/watch?v=IldYXz6oOWk&t=300s">this</a>.
+    </p>
   </div>
-  <div>
-    <a href="https://denizenrecords.bandcamp.com/album/stage-4-dancers"><strong>STAGE 4 DANCERS (2024)</strong></a>
-    <p>This album is a prank.<br>
-    It was pretty fun to make.<br>
-    It’s kinda cool I guess.<br>
-    Recorded it all on<br>
-    Tascam Portastudio 424 MKiii.<br>
-    That’s really all I have to say about it.</p>
-  
-    <p>Bandcamp exclusive.</p>
+
+  <!-- Album 1 -->
+  <div class="album">
+    <div class="album-image">
+      <a href="https://denizenrecords.bandcamp.com/album/stage-4-dancers"><strong>STAGE 4 DANCERS (2024)</strong></a>
+      <img src="gifs/ACIDMINION-1.gif" alt="Stage 4 Dancers album cover">
+    </div>
+    <div class="album-text">
+      <p>This album is a prank.<br>
+      It was pretty fun to make.<br>
+      It’s kinda cool I guess.<br>
+      Recorded it all on<br>
+      Tascam Portastudio 424 MKiii.<br>
+      That’s really all I have to say about it.</p>
+      <p>Bandcamp exclusive.</p>
+    </div>
   </div>
-  
-  <div>
-    <a href="https://denizenrecords.bandcamp.com/album/acid-minion-ii-the-war-on-pugs"><strong>ACID MINION II: THE WAR ON PUGS (2024)</strong></a>
-    <p>Even worse than the last.<br>
-    There’s 2 songs I like on this album I think.<br>
-    There’s a cover of “Smile” that is really pretty,<br>
-    I feel proud of that.<br>
-    Weird time of my life.</p>
+
+  <!-- Album 2 -->
+  <div class="album">
+    <div class="album-image">
+      <a href="https://denizenrecords.bandcamp.com/album/acid-minion-ii-the-war-on-pugs"><strong>ACID MINION II: THE WAR ON PUGS (2024)</strong></a>
+      <img src="gifs/ACIDMINION-2.gif" alt="Acid Minion II: The War on Pugs album cover">
+    </div>
+    <div class="album-text">
+      <p>Even worse than the last.<br>
+      There’s two songs I like on this album, I think.<br>
+      There’s a cover of “Smile” that is really pretty,<br>
+      I feel proud of that.<br>
+      Weird time of my life.</p>
+    </div>
   </div>
-  
+
   <div style="margin-bottom: 20vh;"></div>
 
-
-  <div style="width: 50vw; margin: 0 auto;">
-    return to <a href="music.html">MUSIc?</a>
-
+  <div style="width: 50vw; margin: 0 auto; text-align: center;">
+    return to <a href="music.html">MUSIC?</a>
   </div>
-  <div style="width: 50vw; margin: 0 auto;">
-    return <a href="index.html">HOME?</a>
-
+  <div style="width: 50vw; margin: 2vh auto; text-align: center;">
+    return to <a href="index.html">HOME?</a>
   </div>
 
-
-  
-
-
-  
-  <footer>© 2025 Scotty Malcolm</footer>
-
+  <footer style="text-align: center; margin-top: 4vh;">© 2025 Scotty Malcolm</footer>
 </body>
 </html>
