@@ -100,8 +100,9 @@
     window.addEventListener('resize', resize);
 
     function updateSprite(el, x, y){
-      el.style.transform = translate(${x}px, ${y}px);
+      el.style.transform = `translate(${x}px, ${y}px)`;
     }
+
 
     // --- Overlay ---
     function showOverlay(name, ms, cb){
@@ -138,7 +139,7 @@
       imgs[f].onload = track;
     });
     for(let i=1;i<=10;i++){
-      const k = enemy${i}.png;
+      const k = `enemy${i}.png`;
       imgs[k] = new Image();
       imgs[k].src = 'game/' + k;
       imgs[k].onload = track;
@@ -146,8 +147,8 @@
 
     // --- Spawning ---
     function spawnEnemy(xOff=0){
-      const idx = 1 + Math.floor(Math.random()*10),
-            img = imgs[enemy${idx}.png];
+      const idx = 1 + Math.floor(Math.random() * 10),
+      img = imgs[`enemy${idx}.png`];
       enemies.push({
         img,
         x: W + 50 + xOff,
