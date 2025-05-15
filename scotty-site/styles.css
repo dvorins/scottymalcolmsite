@@ -1,7 +1,14 @@
+@font-face {
+  font-family: 'scotty';
+  src: url('scotty.ttf') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
     margin: 0;
     background: white;
-    font-family: Consolas, monospace;
+    font-family: 'scotty', sans-serif;
   }
 
 

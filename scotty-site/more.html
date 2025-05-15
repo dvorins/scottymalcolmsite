@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Motorcycle Runner</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #fff;
+    }
+    #gameContainer {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100vw;
+      height: 56.25vw;
+      max-width: 177.78vh;
+      max-height: 100vh;
+      background: #fff;
+      overflow: hidden;
+    }
+    canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .sprite {
+      position: absolute;
+      top: 0; left: 0;
+      pointer-events: none;
+    }
+    #player {
+      z-index: 3;
+    }
+    #score {
+      position: absolute;
+      top: 10px; right: 20px;
+      font: bold 24px sans-serif;
+      color: #333;
+      z-index: 4;
+      pointer-events: none;
+    }
+    #overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255,255,255,0.95);
+      z-index: 5;
+    }
+    #overlay img { max-width: 80%; height: auto; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div id="gameContainer">
+    <canvas id="game"></canvas>
+    <img id="player" class="sprite" src="game/motorcycle.gif" alt="motorcycle">
+    <div id="score">0</div>
+    <div id="overlay"><img id="overlayImg" alt="overlay"></div>
+  </div>
+
+  <script>
+  (function(){
+    // DOM refs
+    const container = document.getElementById('gameContainer'),
+          canvas    = document.getElementById('game'),
+          ctx       = canvas.getContext('2d'),
+          playerEl  = document.getElementById('player'),
+          scoreEl   = document.getElementById('score'),
+          overlay   = document.getElementById('overlay'),
+          overlayImg= document.getElementById('overlayImg');
+
+    // Game state
+    let W, H, speed = 0.5,
+        gravity  = 0.65,
+        startTime, lastEnemyTime, spawnInterval,
+        enemies = [], backgrounds = [],
+        player = { x:50, y:0, w:0, h:0, vy:0, jumping:false };
+
+    // --- Resize ---
+    function resize(){
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+      // player size = 25% of canvas height
+      const ph = H * 0.25;
+      player.w = player.h = ph;
+      player.x = 50;
+      player.y = H - ph - 20;
+      playerEl.style.width  = ph + 'px';
+      playerEl.style.height = ph + 'px';
+      updateSprite(playerEl, player.x, player.y);
+    }
+    window.addEventListener('resize', resize);
+
+    function updateSprite(el, x, y){
+      el.style.transform = translate(${x}px, ${y}px);
+    }
+
+    // --- Overlay ---
+    function showOverlay(name, ms, cb){
+      overlayImg.src = 'game/' + name;
+      overlay.style.display = 'flex';
+      setTimeout(()=>{
+        overlay.style.display = 'none';
+        cb && cb();
+      }, ms);
+    }
+
+    // --- Input ---
+    function jump(){
+      if (!player.jumping){
+        player.vy = -22.5;
+        player.jumping = true;
+      }
+    }
+    window.addEventListener('keydown', e => { if(e.code==='Space') jump(); });
+    window.addEventListener('click', jump);
+    window.addEventListener('touchstart', jump);
+
+    // --- Preload ---
+    const overlayFiles = ['countdown.gif','survive.gif','death.gif','retry.gif'],
+          imgs = {},
+          total = overlayFiles.length + 10,
+          loaded = { c:0 };
+    function track(){
+      if (++loaded.c === total) startGame();
+    }
+    overlayFiles.forEach(f => {
+      imgs[f] = new Image();
+      imgs[f].src = 'game/' + f;
+      imgs[f].onload = track;
+    });
+    for(let i=1;i<=10;i++){
+      const k = enemy${i}.png;
+      imgs[k] = new Image();
+      imgs[k].src = 'game/' + k;
+      imgs[k].onload = track;
+    }
+
+    // --- Spawning ---
+    function spawnEnemy(xOff=0){
+      const idx = 1 + Math.floor(Math.random()*10),
+            img = imgs[enemy${idx}.png];
+      enemies.push({
+        img,
+        x: W + 50 + xOff,
+        y: H - player.h - 20,
+        w: player.h, h: player.h,
+        speed: speed + Math.random()
+      });
+    }
+    function spawnBG(){
+      const isBird = Math.random()>0.5,
+            num    = 1 + Math.floor(Math.random()*2),
+            fname  = (isBird?'bird':'cloud')+num+'.gif',
+            imgEl  = document.createElement('img'),
+            sz     = H * 0.2;
+      imgEl.src = 'game/' + fname;
+      imgEl.className = 'sprite';
+      imgEl.style.width  = sz + 'px';
+      imgEl.style.height = 'auto';
+      imgEl.style.zIndex = 2;
+      container.appendChild(imgEl);
+      backgrounds.push({
+        el: imgEl,
+        x: W,
+        y: Math.random()*H*0.5,
+        w: sz,
+        speed: 1 + Math.random()*0.5
+      });
+    }
+
+    // --- Game Loop ---
+    function gameLoop(){
+      const now     = Date.now(),
+            elapsed = now - startTime;
+      scoreEl.textContent = Math.floor(elapsed/100);
+      ctx.clearRect(0,0,W,H);
+
+      // background sprites
+      if (Math.random() < 0.009) spawnBG();
+      backgrounds = backgrounds.filter(b => {
+        b.x -= b.speed;
+        updateSprite(b.el, b.x, b.y);
+        if (b.x + b.w < 0){
+          container.removeChild(b.el);
+          return false;
+        }
+        return true;
+      });
+
+      // enemies
+      if (elapsed - lastEnemyTime > spawnInterval){
+        lastEnemyTime = elapsed;
+        if (Math.random()<0.3){
+          const grp = 2 + Math.floor(Math.random()*2),
+                gap = player.h * 0.55;
+          for(let i=0;i<grp;i++) spawnEnemy(i*gap);
+        } else spawnEnemy();
+        spawnInterval = Math.max(600, 2000 - elapsed/20);
+      }
+      enemies = enemies.filter(e => {
+        e.x -= e.speed;
+        ctx.drawImage(e.img, e.x, e.y, e.w, e.h);
+        return e.x + e.w > 0;
+      });
+
+      // player physics & render
+      player.vy += gravity;
+      player.y += player.vy;
+      if (player.y > H - player.h - 20){
+        player.y = H - player.h - 20;
+        player.vy = 0;
+        player.jumping = false;
+      }
+      updateSprite(playerEl, player.x, player.y);
+
+      // collision
+      for (let e of enemies){
+        if (
+          player.x < e.x+e.w &&
+          player.x+player.w > e.x &&
+          player.y < e.y+e.h &&
+          player.y+player.h > e.y
+        ){
+          showOverlay('death.gif',2000, ()=>{
+            overlayImg.src = 'game/retry.gif';
+            overlay.style.display = 'flex';
+            overlayImg.onclick = ()=>{
+              overlayImg.onclick = null;
+              overlay.style.display = 'none';
+              resetGame();
+            };
+          });
+          return;
+        }
+      }
+
+      speed += 0.001;
+      requestAnimationFrame(gameLoop);
+    }
+
+    // --- Start & Reset ---
+    function resetGame(){
+      speed         = 9;
+      enemies       = [];
+      backgrounds.forEach(b=> container.removeChild(b.el));
+      backgrounds   = [];
+      spawnInterval = 2000;
+      lastEnemyTime = 0;
+      startTime     = Date.now();
+      player.vy     = 0;
+      player.jumping= false;
+      scoreEl.textContent = '0';
+      showOverlay('countdown.gif',2000, ()=>{
+        showOverlay('survive.gif',1500, ()=>{
+          requestAnimationFrame(gameLoop);
+        });
+      });
+    }
+
+    function startGame(){
+      resize();
+      resetGame();
+    }
+  })();
+  </script>
+</body>
+</html>
