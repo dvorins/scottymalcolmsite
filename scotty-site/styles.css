@@ -9,6 +9,7 @@ body {
     margin: 0;
     background: white;
     font-family: 'Consolas',monospace; 
+    font-size: 2.5vh;
   }
 
 
@@ -52,8 +53,8 @@ body {
   .youtube    { top: 200px; left: -80px; }
 
   .blog       { top: 60px; right: -80px; }
-  .instagram  { top: 130px; right: -110px; }
-  .lessons    { top: 200px; right: -80px; }
+  .instagram  { top: 130px; right: -200px; }
+  .lessons    { top: 200px; right: -100px; }
 
   footer {
     text-align: center;
@@ -61,3 +62,28 @@ body {
     color: #999;
     margin-top: 20px;
   }
+
+  @media (max-width: 700px) {
+    .center {
+      width: 70vw;
+      height: 70vw;
+    }
+  
+    .link {
+      font-size: 0.9em;
+    }
+  
+    /* Place half of the links above the image */
+    .history    { top: -30px; left: 50%; transform: translateX(-50%); }
+    .music      { top: 15%; left: -10px; }
+    .art        { top: 45%; left: 0px; }
+    .youtube    { top: 75%; left:-20px; }
+  
+    /* And the other half below the image */
+    .blog       { top: 15%; right: -40px; }
+    .lessons { top: 45%; right: -45px; }
+    .instagram    { top: 75%; right: -40px; }
+    .more       { bottom: -30px; left: 50%; transform: translateX(-50%); }
+  }
+  
+
