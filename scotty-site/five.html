@@ -9,6 +9,7 @@
 <body>
     <div style="margin-bottom: 20vh;"></div>
 
+    <button id="toggleBtn">party mode on</button>
   <marquee behavior="scroll" direction="left">
     ,..,.,.,..,..,,..,,.,.,.,...,.5 DOLLAR DRAWINGS,.,.,.,.,..,.,.,.,..,,,
   </marquee>
@@ -71,4 +72,30 @@ Extra money
   <footer>© 2025 Scotty Malcolm</footer>
 
 </body>
+
+
+<script>
+  const button = document.getElementById('toggleBtn');
+  let intervalId = null;
+
+  function getRandomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  button.addEventListener('click', () => {
+    if (intervalId === null) {
+      intervalId = setInterval(() => {
+        document.body.style.backgroundColor = getRandomColor();
+      }, 200);
+      button.textContent = 'party mode off';
+    } else {
+      clearInterval(intervalId);
+      intervalId = null;
+      button.textContent = 'party mode on';
+    }
+  });
+</script>
 </html>
