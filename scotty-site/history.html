@@ -1,90 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>history of scotty</title>
-  <style>
+  <head>
+    <meta charset="UTF-8" />
+    <title>history of scotty</title>
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      #output {
+        margin-top: 2rem;
+        padding: 1rem;
+        background: white;
+        white-space: pre-wrap;
+      }
+      button h1 {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="toggleBtn">party mode on</button>
+    <br />
 
-    #output {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: white;
-    }
+    <button id="generateBtn" disabled>
+      <h1>RECEIVE THE PROPHECY</h1>
+    </button>
 
-  </style>
-</head>
-<body>
-  <button id="toggleBtn">party mode on</button>
-  <h1>RECEIVE THE PROPHECY</h1>
+    <div id="output"></div>
 
-  <button onclick="generateText()">yes please</button>
+    <script>
+      let markovData = null;
 
-  <div id="output"></div>
+      async function loadMarkovJSON() {
+        try {
+          const response = await fetch("markov.json");
+          if (!response.ok) throw new Error("Failed to load JSON");
+          markovData = await response.json();
 
-  <script>
-    let markovData = null;
-
-    async function loadMarkovJSON() {
-      const response = await fetch('markov.json');
-      markovData = await response.json();
-    }
-
-    function generateText() {
-      if (!markovData) {
-        document.getElementById('output').textContent = 'Markov data not loaded.';
-        return;
+          // Enable generate button once loaded
+          document.getElementById("generateBtn").disabled = false;
+        } catch (e) {
+          document.getElementById("output").textContent =
+            "Error loading markov data: " + e.message;
+        }
       }
 
-      const { order, chain } = markovData;
-      const keys = Object.keys(chain);
-      if (keys.length === 0) return;
+      function generateText() {
+        if (!markovData) {
+          document.getElementById("output").textContent =
+            "Markov data not loaded.";
+          return;
+        }
 
-      // Pick a random starting point
-      let current = keys[Math.floor(Math.random() * keys.length)].split(' ');
-      let result = [...current];
+        const { order, chain } = markovData;
+        const keys = Object.keys(chain);
+        if (keys.length === 0) return;
 
-      while (result.length < 500) {
-        const key = result.slice(-order).join(' ');
-        const nextWords = chain[key];
-        if (!nextWords || nextWords.length === 0) break;
+        // Pick a random starting point
+        let current = keys[Math.floor(Math.random() * keys.length)].split(" ");
+        let result = [...current];
 
-        const next = nextWords[Math.floor(Math.random() * nextWords.length)];
-        result.push(next);
+        while (result.length < 500) {
+          const key = result.slice(-order).join(" ");
+          const nextWords = chain[key];
+          if (!nextWords || nextWords.length === 0) break;
+
+          const next = nextWords[Math.floor(Math.random() * nextWords.length)];
+          result.push(next);
+        }
+
+        // Trim to ~500 tokens max
+        const output = result.slice(0, 500).join(" ");
+        document.getElementById("output").textContent = output;
       }
 
-      // Trim to ~50 tokens max
-      const output = result.slice(0, 500).join(' ');
-      document.getElementById('output').textContent = output;
-    }
+      document
+        .getElementById("generateBtn")
+        .addEventListener("click", generateText);
 
-    loadMarkovJSON();
-  </script>
+      loadMarkovJSON();
 
-</body>
+      // Party mode button code
+      const button = document.getElementById("toggleBtn");
+      let intervalId = null;
 
+      function getRandomColor() {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        return `rgb(${r}, ${g}, ${b})`;
+      }
 
-<script>
-  const button = document.getElementById('toggleBtn');
-  let intervalId = null;
-
-  function getRandomColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgb(${r}, ${g}, ${b})`;
-  }
-
-  button.addEventListener('click', () => {
-    if (intervalId === null) {
-      intervalId = setInterval(() => {
-        document.body.style.backgroundColor = getRandomColor();
-      }, 200);
-      button.textContent = 'party mode off';
-    } else {
-      clearInterval(intervalId);
-      intervalId = null;
-      button.textContent = 'party mode on';
-    }
-  });
-</script>
+      button.addEventListener("click", () => {
+        if (intervalId === null) {
+          intervalId = setInterval(() => {
+            document.body.style.backgroundColor = getRandomColor();
+          }, 200);
+          button.textContent = "party mode off";
+        } else {
+          clearInterval(intervalId);
+          intervalId = null;
+          button.textContent = "party mode on";
+          document.body.style.backgroundColor = ""; // reset bg color
+        }
+      });
+    </script>
+  </body>
 </html>
